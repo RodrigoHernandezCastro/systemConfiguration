@@ -1,0 +1,48 @@
+{
+  "nodes": {
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1778869304,
+        "narHash": "sha256-30sZNZoA1cqF5JNO9fVX+wgiQYjB7HJqqJ4ztCDeBZE=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "d233902339c02a9c334e7e593de68855ad26c4cb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "nixpkgs": "nixpkgs",
+        "vtubfetch": "vtubfetch"
+      }
+    },
+    "vtubfetch": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1774671181,
+        "narHash": "sha256-X4/gvH1geE2Y/EaDy7eTf6ZCd+Vdl1goh9Ip1I9WwdQ=",
+        "ref": "refs/heads/main",
+        "rev": "3d3ae4c936cfc78ce10b96d813f0b29897878b65",
+        "revCount": 3,
+        "type": "git",
+        "url": "https://codeberg.org/Willowispll/vtubfetch.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://codeberg.org/Willowispll/vtubfetch.git"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
