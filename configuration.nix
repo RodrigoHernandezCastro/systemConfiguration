@@ -1,10 +1,13 @@
-{ config, pkgs, inputs, ... }:
+{
+  pkgs,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   boot = {
     # Bootloader.
@@ -58,7 +61,10 @@
 
   systemd.services.kokoro-tts = {
     description = "Kokoro TTS FastAPI Server";
-    after = [ "network.target" "docker.service" ];
+    after = [
+      "network.target"
+      "docker.service"
+    ];
     requires = [ "docker.service" ];
     wantedBy = [ "multi-user.target" ];
 
@@ -117,7 +123,13 @@
   users.users.randy = {
     isNormalUser = true;
     description = "Randy";
-    extraGroups = [ "networkmanager" "wheel" "input" "video" "docker"];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "input"
+      "video"
+      "docker"
+    ];
     packages = with pkgs; [
       kdePackages.kate
     ];
@@ -128,8 +140,6 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-
-  programs.xwayland.enable = true;
 
   system.stateVersion = "25.11"; # Did you read the comment?
 
