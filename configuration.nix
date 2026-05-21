@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, inputs, ... }:
 
 {
@@ -10,23 +6,28 @@
       ./hardware-configuration.nix
     ];
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot = {
+    # Bootloader.
+    loader.systemd-boot.enable = true;
+    loader.efi.canTouchEfiVariables = true;
+    kernelPackages = pkgs.linuxPackages_latest;
+  };
 
+  hardware.bluetooth.enable = true;
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
   networking.networkmanager.enable = true;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix = {
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    extraOptions = "warn-dirty = false ";
+  };
   security.polkit.enable = true;
-  programs.niri.enable = true;
 
   # Opcional: Asegúrate de tener XDG Desktop Portals funcionando correctamente
   xdg.portal = {
@@ -53,13 +54,32 @@
     LC_TIME = "es_CL.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  # You can disable this if you're only using the Wayland session.
-  services.xserver.enable = true;
+  virtualisation.docker.enable = true;
 
-  # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  systemd.services.kokoro-tts = {
+    description = "Kokoro TTS FastAPI Server";
+    after = [ "network.target" "docker.service" ];
+    requires = [ "docker.service" ];
+    wantedBy = [ "multi-user.target" ];
+
+    script = ''
+      ${pkgs.docker}/bin/docker rm -f kokoro-fastapi 2>/dev/null || true
+      ${pkgs.docker}/bin/docker run --rm \
+        -p 8880:8880 \
+        --name kokoro-fastapi \
+        ghcr.io/remsky/kokoro-fastapi-cpu:latest
+    '';
+
+    serviceConfig = {
+      Restart = "always";
+      RestartSec = "10s";
+    };
+  };
+
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true; # Required for Steam and 32-bit Wine/Proton games
+  };
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -96,7 +116,7 @@
   users.users.randy = {
     isNormalUser = true;
     description = "Randy";
-    extraGroups = [ "networkmanager" "wheel" "input" "video" ];
+    extraGroups = [ "networkmanager" "wheel" "input" "video" "docker"];
     packages = with pkgs; [
       kdePackages.kate
     ];
@@ -108,64 +128,8 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
-      google-chrome
-      brave
-      discord
-      git
-      alacritty
-      fuzzel
-      mako
-      waybar
-      swaybg
-      swaylock
-      xwayland-satellite
-      wl-clipboard
-      brightnessctl
-      playerctl
-      pavucontrol
-      nh
-      inputs.vtubfetch.packages.${pkgs.stdenv.hostPlatform.system}.default
-      easyeffects
-      telegram-desktop
-      vscode
-      lxqt.lxqt-policykit
-      prismlauncher
-      modrinth-app
-      whatsapp-electron
-  ];
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
   programs.xwayland.enable = true;
 
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.11"; # Did you read the comment?
 
 }
