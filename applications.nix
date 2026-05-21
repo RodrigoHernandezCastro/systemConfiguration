@@ -2,11 +2,13 @@
   pkgs,
   inputs,
   ...
-}:let
+}:
+let
   java-mcef = pkgs.writeShellScriptBin "java-mcef" ''
     exec ${pkgs.steam-run}/bin/steam-run ${pkgs.jdk21}/bin/java "$@"
   '';
-in {
+in
+{
   environment.systemPackages = with pkgs; [
     whatsapp-electron
     modrinth-app
@@ -16,21 +18,15 @@ in {
     discord
     git
     alacritty
-    fuzzel
     mako
-    swaybg
     swaylock
-    xwayland-satellite
     wl-clipboard
     brightnessctl
     playerctl
-    pavucontrol
     nh
     inputs.vtubfetch.packages.${pkgs.stdenv.hostPlatform.system}.default
-    inputs.kopuz.packages.${pkgs.stdenv.hostPlatform.system}.default
     easyeffects
     telegram-desktop
-    vscode
     lxqt.lxqt-policykit
     prismlauncher
     nmap

@@ -2,8 +2,9 @@
   inputs,
   pkgs,
   ...
-}: {
-  imports = [inputs.stylix.homeModules.stylix];
+}:
+{
+  imports = [ inputs.stylix.homeModules.stylix ];
   stylix = {
     enable = true;
     autoEnable = false;
@@ -14,9 +15,7 @@
       qt.enable = true;
       fuzzel.enable = true;
       mako.enable = true;
-      foliate.enable = true;
       zed.enable = true;
-      obsidian.enable = true;
     };
   };
 }

@@ -1,4 +1,5 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   zed-rpc = pkgs.buildEnv {
     name = "zed-editor";
     paths = [
@@ -6,7 +7,8 @@
       pkgs.zed-discord-presence
     ];
   };
-in {
+in
+{
   programs.zed-editor = {
     enable = true;
     package = zed-rpc;
