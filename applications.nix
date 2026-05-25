@@ -3,22 +3,16 @@
   inputs,
   ...
 }:
-let
-  java-mcef = pkgs.writeShellScriptBin "java-mcef" ''
-    exec ${pkgs.steam-run}/bin/steam-run ${pkgs.jdk21}/bin/java "$@"
-  '';
-in
 {
   environment.systemPackages = with pkgs; [
     whatsapp-electron
     modrinth-app
-    java-mcef
     google-chrome
-    brave
-    discord
     git
     alacritty
+    pciutils
     mako
+    swaybg
     swaylock
     wl-clipboard
     brightnessctl
@@ -35,11 +29,16 @@ in
     jq
     mpv
     libnotify
+    sl
+    palemoon-bin
+    unzip
   ];
 
   services = {
     displayManager.ly.enable = true;
     blueman.enable = true;
+    tailscale.enable = true;
+    openssh.enable = true;
   };
 
   programs.firefox.enable = true;

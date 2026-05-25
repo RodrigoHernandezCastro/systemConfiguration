@@ -7,7 +7,7 @@
   environment.systemPackages = with pkgs; [
     adwaita-icon-theme
     waypaper
-    swww
+    awww
     xwayland-satellite
     pavucontrol
   ];

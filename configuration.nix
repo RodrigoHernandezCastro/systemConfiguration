@@ -57,7 +57,19 @@
     LC_TIME = "es_CL.UTF-8";
   };
 
+  # Virtualization
+  # Enable Docker
   virtualisation.docker.enable = true;
+
+  # Enable libvirt with QEMU/KVM
+  virtualisation.libvirtd = {
+      enable = true;
+      qemu = {
+        package = pkgs.qemu_kvm;
+        runAsRoot = true;
+        swtpm.enable = true;
+      };
+    };
 
   systemd.services.kokoro-tts = {
     description = "Kokoro TTS FastAPI Server";
@@ -129,12 +141,17 @@
       "input"
       "video"
       "docker"
+      "libvirtd"
+      "kvm"
     ];
     packages = with pkgs; [
       kdePackages.kate
+
     ];
   };
 
+  # programs
+  programs.dconf.enable = true;
   # Install firefox.
   programs.firefox.enable = true;
 
