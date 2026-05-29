@@ -3,6 +3,8 @@ let
   zed-rpc = pkgs.buildEnv {
     name = "zed-editor";
     paths = [
+      pkgs.nil
+      pkgs.nixd
       pkgs.zed-editor
       pkgs.zed-discord-presence
     ];

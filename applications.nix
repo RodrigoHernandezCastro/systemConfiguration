@@ -1,6 +1,7 @@
 {
   pkgs,
   inputs,
+  lib,
   ...
 }:
 {
@@ -30,10 +31,18 @@
     mpv
     libnotify
     sl
-    palemoon-bin
     unzip
+    warpd
+    foliate
+    corefonts
+    onlyoffice-desktopeditors
+    mpv
   ];
-
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "corefonts"
+    ];
   services = {
     displayManager.ly.enable = true;
     blueman.enable = true;
