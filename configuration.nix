@@ -1,5 +1,6 @@
 {
   pkgs,
+  config,
   ...
 }:
 
@@ -13,7 +14,7 @@
     # Bootloader.
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages_6_6;
     supportedFilesystems = [ "ntfs" ];
   };
 
@@ -42,10 +43,10 @@
   };
   security.polkit.enable = true;
 
-  # Opcional: Asegúrate de tener XDG Desktop Portals funcionando correctamente
+  # Portal configuration for screensharing on niri
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gnome ]; # O el de tu preferencia
+    extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
     config.common.default = "*";
   };
 
@@ -80,7 +81,6 @@
       swtpm.enable = true;
     };
   };
-
   systemd.services.kokoro-tts = {
     description = "Kokoro TTS FastAPI Server";
     after = [
@@ -106,9 +106,44 @@
 
   hardware.graphics = {
     enable = true;
-    enable32Bit = true; # Required for Steam and 32-bit Wine/Proton games
+    enable32Bit = true;
+    extraPackages = with pkgs; [ vulkan-loader ];
   };
 
+  services.xserver.videoDrivers = [
+    "amdgpu"
+    "nvidia"
+  ];
+
+  hardware.nvidia = {
+    modesetting.enable = true;
+    open = false;
+
+    package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
+
+    prime = {
+      offload = {
+        enable = true;
+        enableOffloadCmd = true;
+      };
+      amdgpuBusId = "PCI:10:0:0";
+      nvidiaBusId = "PCI:1:0:0";
+    };
+  };
+
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd niri-session";
+        user = "greeter";
+      };
+    };
+  };
+  programs.niri.enable = true;
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+  };
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "latam";
@@ -123,6 +158,13 @@
 
   services.flatpak.enable = true;
   security.rtkit.enable = true;
+
+  services.pipewire = {
+    enable = true;
+    pulse.enable = true;
+    wireplumber.enable = true;
+  };
+
   hardware.pulseaudio.enable = false;
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -191,8 +233,11 @@
   # Install firefox.
   programs.firefox.enable = true;
 
+  programs.nix-ld.enable = true;
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.nvidia.acceptLicense = true;
 
   system.stateVersion = "25.11"; # Did you read the comment?
 

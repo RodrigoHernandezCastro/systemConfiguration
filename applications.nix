@@ -37,6 +37,7 @@
     corefonts
     onlyoffice-desktopeditors
     mpv
+    prismlauncher
   ];
   nixpkgs.config.allowUnfreePredicate =
     pkg:
