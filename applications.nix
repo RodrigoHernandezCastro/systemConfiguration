@@ -39,6 +39,7 @@
     onlyoffice-desktopeditors
     mpv
     prismlauncher
+    obs-studio
   ];
   nixpkgs.config.allowUnfreePredicate =
     pkg:

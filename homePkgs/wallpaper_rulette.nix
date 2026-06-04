@@ -1,21 +1,31 @@
-{ pkgs, inputs, ... }:
-
 {
-  systemd.user.services.wallpaper-rulette = {
-    Unit = {
-      Description = "C++ Wallpaper Rulette Service for Niri";
-      PartOf = [ "graphical-session.target" ];
-      After = [ "graphical-session.target" ];
+  pkgs,
+  config,
+  lib,
+  ...
+}:
+let
+  cfg = config.services.wallpaper_rulette;
+in
+{
+  options = {
+    services.wallpaper_rulette = {
+      enable = lib.mkEnableOption "Wallpaper Rulette, a way to roll around in your wallpapers";
+      package = lib.mkPackageOption pkgs [ "haskellPackages" "wallpaper_rulette" ] { };
+    };
+  };
+  config = lib.mkIf cfg.enable {
+    systemd.user.services.wallpaper_rulette = {
+      enable = true;
+      description = "A wallpaper rulette";
+      wantedBy = [ "graphical-session.target" ];
+      after = [ "graphical-session.target" ];
+      serviceConfig = {
+        ExecStart = "/home/randy/Desktop/cppProyects/wallpaper_rulette/build/bin/wallpaper_rulette";
+        RestartSec = 5;
+      };
     };
 
-    Service = {
-      ExecStart = "${inputs.wallpaper-rulette.packages.${pkgs.system}.default}/bin/wallpaper_rulette";
-      Restart = "on-failure";
-      RestartSec = "5s";
-    };
-
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
-    };
+    home.packages = [ cfg.package ];
   };
 }

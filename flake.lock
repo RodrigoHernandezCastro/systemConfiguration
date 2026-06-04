@@ -1074,8 +1074,8 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1780545101,
-        "narHash": "sha256-RGxLWlO2sod03kWV6+SH8HhsKwGrlX86Y9xxJg1Twoo=",
+        "lastModified": 1780583366,
+        "narHash": "sha256-F9vN1UAAoJvGQh2NsuYec7U7OIZPaCjMrEx7W9gm8qc=",
         "path": "/home/randy/Desktop/cppProyects/wallpaper_rulette",
         "type": "path"
       },
