@@ -8,6 +8,7 @@
   environment.systemPackages = with pkgs; [
     whatsapp-electron
     modrinth-app
+    glfw3-minecraft
     google-chrome
     git
     alacritty

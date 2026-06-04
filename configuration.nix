@@ -47,7 +47,7 @@
   xdg.portal = {
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
-    config.common.default = "*";
+    config.common.default = "gnome";
   };
 
   # Set your time zone.
@@ -119,7 +119,7 @@
     modesetting.enable = true;
     open = false;
 
-    package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
 
     prime = {
       offload = {
@@ -130,6 +130,8 @@
       nvidiaBusId = "PCI:1:0:0";
     };
   };
+
+  boot.kernel.sysctl."fs.inotify.max_user_watches" = 524288;
 
   services.greetd = {
     enable = true;

@@ -10,8 +10,17 @@
     backupFileExtension = "backup";
     extraSpecialArgs = { inherit inputs; };
 
+    sharedModules = [
+      inputs.nixcord.homeModules.nixcord
+    ];
+
     users.randy =
-      { pkgs, config, ... }:
+      {
+        pkgs,
+        config,
+        lib,
+        ...
+      }:
       {
         home.username = "randy";
         home.homeDirectory = "/home/randy";
@@ -29,9 +38,9 @@
 
         programs.nixcord = {
           enable = true;
-
-          discord.installPackage = true;
-          discord.vencord.enable = true;
+          discord.enable = false;
+          discord.vencord.enable = false;
+          vesktop.enable = true;
 
           config = {
             disableMinSize = true;
@@ -41,7 +50,6 @@
             plugins = {
               crashHandler.enable = true;
               showHiddenChannels.enable = true;
-              webScreenShareFixes.enable = true;
             };
           };
         };
@@ -56,7 +64,6 @@
             inputs.willowispll.homeModules.fastfetch
             inputs.willowispll.homeModules.bash
             inputs.willowispll.homeModules.glide
-            inputs.willowispll.homeModules.nixcord
           ];
       };
   };

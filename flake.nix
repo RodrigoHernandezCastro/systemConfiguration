@@ -4,6 +4,8 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    wallpaper-rulette.url = "path:/home/randy/Desktop/cppProyects/wallpaper_rulette";
+
     vtubfetch = {
       url = "github:Willowispll/vtubfetch";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -21,6 +23,11 @@
 
     willowispll = {
       url = "github:Willowispll/dendriticWillowispll";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nixcord = {
+      url = "github:FlameFlag/nixcord";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
