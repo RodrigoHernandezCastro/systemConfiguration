@@ -732,7 +732,7 @@
         "nixpkgs": "nixpkgs",
         "stylix": "stylix",
         "vtubfetch": "vtubfetch",
-        "wallpaper-rulette": "wallpaper-rulette",
+        "wallpaper_rulette": "wallpaper_rulette",
         "willowispll": "willowispll"
       }
     },
@@ -1069,19 +1069,22 @@
         "type": "github"
       }
     },
-    "wallpaper-rulette": {
+    "wallpaper_rulette": {
       "inputs": {
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1780583366,
-        "narHash": "sha256-F9vN1UAAoJvGQh2NsuYec7U7OIZPaCjMrEx7W9gm8qc=",
-        "path": "/home/randy/Desktop/cppProyects/wallpaper_rulette",
-        "type": "path"
+        "lastModified": 1780606907,
+        "narHash": "sha256-ecpB5U1XlyuNgvPe2r0lQBq5a+zQdPU3TRI+wKpjVWI=",
+        "owner": "RodrigoHernandezCastro",
+        "repo": "wallpaper_rulette",
+        "rev": "75fc550681d7542bedd3b582b6c2475a440eb493",
+        "type": "github"
       },
       "original": {
-        "path": "/home/randy/Desktop/cppProyects/wallpaper_rulette",
-        "type": "path"
+        "owner": "RodrigoHernandezCastro",
+        "repo": "wallpaper_rulette",
+        "type": "github"
       }
     },
     "willowispll": {

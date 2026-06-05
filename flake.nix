@@ -4,7 +4,9 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    wallpaper-rulette.url = "path:/home/randy/Desktop/cppProyects/wallpaper_rulette";
+    wallpaper_rulette = {
+      url = "github:RodrigoHernandezCastro/wallpaper_rulette";
+    };
 
     vtubfetch = {
       url = "github:Willowispll/vtubfetch";
@@ -44,7 +46,12 @@
           ./applications.nix
           ./niri/niri.nix
           ./homeMain.nix
-        ];
+          ./virtualisation.nix
+          ./fonts.nix
+        ]
+        ++ inputs.nixpkgs.lib.filesystem.listFilesRecursive ./services;
+        #++ inputs.nixpkgs.lib.filesystem.listFilesRecursive ./customModules;
       };
+      nixosModules = import ./customModules;
     };
 }

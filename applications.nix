@@ -46,12 +46,12 @@
     builtins.elem (lib.getName pkg) [
       "corefonts"
     ];
-  services = {
-    displayManager.ly.enable = true;
-    blueman.enable = true;
-    tailscale.enable = true;
-    openssh.enable = true;
-  };
+  virtualisation.docker.enable = true;
+  # programs
+  programs.niri.enable = true;
+  programs.dconf.enable = true;
+  # Install firefox.
+  programs.nix-ld.enable = true;
 
   programs.firefox.enable = true;
   programs.steam.enable = true;

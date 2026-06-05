@@ -40,6 +40,79 @@
     ];
   };
 
+  fileSystems."/mnt/disk_1tb" = {
+    device = "/dev/disk/by-uuid/9250552450550FF9";
+    fsType = "ntfs-3g";
+    options = [
+      "nofail"
+      "defaults"
+      "uid=1000"
+      "gid=100"
+      "dmask=022"
+      "fmask=133"
+    ];
+  };
+
+  fileSystems."/mnt/disk_500gb_1" = {
+    device = "/dev/disk/by-uuid/82E0EA2AE0EA23DF";
+    fsType = "ntfs-3g";
+    options = [
+      "nofail"
+      "defaults"
+      "uid=1000"
+      "gid=100"
+      "dmask=022"
+      "fmask=133"
+    ];
+  };
+
+  fileSystems."/mnt/disk_500gb_HDD_1" = {
+    device = "/dev/disk/by-uuid/7C28ECB02419F06D";
+    fsType = "ntfs-3g";
+    options = [
+      "nofail"
+      "defaults"
+      "uid=1000"
+      "gid=100"
+      "dmask=022"
+      "fmask=133"
+    ];
+  };
+
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings = {
+      General = {
+        Experimental = true;
+      };
+    };
+  };
+
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+    extraPackages = with pkgs; [ vulkan-loader ];
+  };
+
+  hardware.nvidia = {
+    modesetting.enable = true;
+    open = false;
+
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+
+    prime = {
+      offload = {
+        enable = true;
+        enableOffloadCmd = true;
+      };
+      amdgpuBusId = "PCI:10:0:0";
+      nvidiaBusId = "PCI:1:0:0";
+    };
+  };
+
+  hardware.pulseaudio.enable = false;
+
   swapDevices = [ ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

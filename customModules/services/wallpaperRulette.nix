@@ -2,30 +2,33 @@
   pkgs,
   config,
   lib,
+  inputs,
   ...
 }:
 let
-  cfg = config.services.wallpaper_rulette;
+  cfg = config.services.wallpaperRulette;
 in
 {
   options = {
-    services.wallpaper_rulette = {
+    services.wallpaperRulette = {
       enable = lib.mkEnableOption "Wallpaper Rulette, a way to roll around in your wallpapers";
-      package = lib.mkPackageOption pkgs [ "haskellPackages" "wallpaper_rulette" ] { };
+      package = lib.mkOption {
+        type = lib.types.package;
+        default = inputs.wallpaper_rulette.packages.${pkgs.stdenv.hostPlatform.system}.default;
+        description = "The wallpaper_rulette package to use.";
+      };
     };
   };
   config = lib.mkIf cfg.enable {
-    systemd.user.services.wallpaper_rulette = {
+    systemd.user.services.wallpaperRulette = {
       enable = true;
       description = "A wallpaper rulette";
       wantedBy = [ "graphical-session.target" ];
       after = [ "graphical-session.target" ];
       serviceConfig = {
-        ExecStart = "/home/randy/Desktop/cppProyects/wallpaper_rulette/build/bin/wallpaper_rulette";
+        ExecStart = "${cfg.package}/bin/wallpaper_rulette";
         RestartSec = 5;
       };
     };
-
-    home.packages = [ cfg.package ];
   };
 }
