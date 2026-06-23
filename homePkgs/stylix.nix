@@ -16,6 +16,7 @@
       fuzzel.enable = true;
       mako.enable = true;
       zed.enable = true;
+      obsidian.enable = true;
     };
   };
 }

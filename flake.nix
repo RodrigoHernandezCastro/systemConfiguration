@@ -8,8 +8,18 @@
       url = "github:RodrigoHernandezCastro/wallpaper_rulette";
     };
 
+    nixcord = {
+      url = "github:FlameFlag/nixcord";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     vtubfetch = {
       url = "github:Willowispll/vtubfetch";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    glide = {
+      url = "github:glide-browser/glide.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -28,11 +38,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixcord = {
-      url = "github:FlameFlag/nixcord";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
   };
 
   outputs =
@@ -46,11 +51,10 @@
           ./applications.nix
           ./niri/niri.nix
           ./homeMain.nix
-          ./virtualisation.nix
           ./fonts.nix
+          ./virtualisation.nix
         ]
         ++ inputs.nixpkgs.lib.filesystem.listFilesRecursive ./services;
-        #++ inputs.nixpkgs.lib.filesystem.listFilesRecursive ./customModules;
       };
       nixosModules = import ./customModules;
     };

@@ -1,4 +1,22 @@
-{ lib, inputs, ... }:
+{
+  inputs,
+  pkgs,
+  ...
+}:
+let
+  inherit (inputs.nixpkgs.lib.fileset) toList fileFilter;
+  tree =
+    path:
+    toList (
+      fileFilter (
+        file:
+        if file.type == "directory" then
+          true
+        else
+          file.hasExt "nix" && !(inputs.nixpkgs.lib.hasPrefix "_" file.name)
+      ) path
+    );
+in
 {
   imports = [
     inputs.home-manager.nixosModules.home-manager
@@ -10,61 +28,21 @@
     backupFileExtension = "backup";
     extraSpecialArgs = { inherit inputs; };
 
-    sharedModules = [
-      inputs.nixcord.homeModules.nixcord
-    ];
+    users.randy = {
+      home.username = "randy";
+      home.homeDirectory = "/home/randy";
+      home.stateVersion = "25.11";
 
-    users.randy =
-      {
-        pkgs,
-        config,
-        lib,
-        ...
-      }:
-      {
-        home.username = "randy";
-        home.homeDirectory = "/home/randy";
-        home.stateVersion = "25.11";
+      gtk.enable = true;
 
-        home.packages = with pkgs; [
-          virt-manager
-          virt-viewer
-          spice
-          spice-gtk
-          spice-protocol
+      imports =
+        tree ./homePkgs
+        ++ tree ./niri/utils
+        ++ [
+          inputs.willowispll.homeModules.spicetify
+          inputs.willowispll.homeModules.nixcord
+          inputs.willowispll.homeModules.mako
         ];
-
-        gtk.enable = true;
-
-        programs.nixcord = {
-          enable = true;
-          discord.enable = false;
-          discord.vencord.enable = false;
-          vesktop.enable = true;
-
-          config = {
-            disableMinSize = true;
-            themeLinks = [
-              "https://raw.githubusercontent.com/refact0r/system24/refs/heads/main/theme/flavors/system24-catppuccin-mocha.theme.css"
-            ];
-            plugins = {
-              crashHandler.enable = true;
-              showHiddenChannels.enable = true;
-            };
-          };
-        };
-
-        imports =
-          lib.filesystem.listFilesRecursive ./homePkgs
-          ++ lib.filesystem.listFilesRecursive ./niri/utils
-          ++ [
-            inputs.willowispll.homeModules.waybar
-            inputs.willowispll.homeModules.spicetify
-            inputs.willowispll.homeModules.kitty
-            inputs.willowispll.homeModules.fastfetch
-            inputs.willowispll.homeModules.bash
-            inputs.willowispll.homeModules.glide
-          ];
-      };
+    };
   };
 }

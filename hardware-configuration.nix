@@ -95,24 +95,6 @@
     extraPackages = with pkgs; [ vulkan-loader ];
   };
 
-  hardware.nvidia = {
-    modesetting.enable = true;
-    open = false;
-
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-
-    prime = {
-      offload = {
-        enable = true;
-        enableOffloadCmd = true;
-      };
-      amdgpuBusId = "PCI:10:0:0";
-      nvidiaBusId = "PCI:1:0:0";
-    };
-  };
-
-  hardware.pulseaudio.enable = false;
-
   swapDevices = [ ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
