@@ -1,6 +1,0 @@
-{
-  ...
-}:
-{
-  programs.playerctl.enable = true;
-}
