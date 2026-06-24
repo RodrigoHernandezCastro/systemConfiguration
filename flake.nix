@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    import-tree.url = "github:vic/import-tree";
 
     wallpaper_rulette = {
       url = "github:RodrigoHernandezCastro/wallpaper_rulette";
@@ -46,15 +47,14 @@
       nixosConfigurations.nixos = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
         modules = [
-          ./configuration.nix
-          ./hardware-configuration.nix
           ./applications.nix
           ./niri/niri.nix
           ./homeMain.nix
           ./fonts.nix
           ./virtualisation.nix
         ]
-        ++ inputs.nixpkgs.lib.filesystem.listFilesRecursive ./services;
+        ++ inputs.nixpkgs.lib.filesystem.listFilesRecursive ./services
+        ++ inputs.nixpkgs.lib.filesystem.listFilesRecursive ./hosts/rune;
       };
       nixosModules = import ./customModules;
     };

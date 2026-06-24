@@ -1,22 +1,7 @@
 {
-  pkgs,
   ...
 }:
-
 {
-  boot = {
-    loader.systemd-boot.enable = true;
-    loader.efi.canTouchEfiVariables = true;
-    kernelPackages = pkgs.linuxPackages_6_6;
-    supportedFilesystems = [ "ntfs" ];
-  };
-
-  # Enable networking
-  networking = {
-    hostName = "nixos";
-    networkmanager.enable = true;
-  };
-
   nix = {
     settings.experimental-features = [
       "nix-command"
@@ -45,25 +30,6 @@
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
     XDG_STATE_HOME = "/home/randy/.local/state";
-  };
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.randy = {
-    isNormalUser = true;
-    description = "Randy";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-      "input"
-      "video"
-      "docker"
-      "libvirtd"
-      "kvm"
-      "audio"
-    ];
-    packages = with pkgs; [
-      kdePackages.kate
-    ];
   };
 
   # Allow unfree packages

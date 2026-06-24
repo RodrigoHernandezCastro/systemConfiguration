@@ -14,14 +14,17 @@
       name = "Qt5 Configuration Tool";
       noDisplay = true;
     };
+
     "qt6ct" = {
       name = "Qt6 Configuration Tool";
       noDisplay = true;
     };
+
     "kitty" = {
       name = "kitty";
       noDisplay = true;
     };
+
     "blueman-adapters" = {
       name = "Bluetooth Adaptors";
       noDisplay = true;

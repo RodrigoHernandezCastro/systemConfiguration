@@ -27,7 +27,6 @@
     prismlauncher
     nmap
     arp-scan
-    curl
     jq
     mpv
     libnotify
@@ -37,13 +36,12 @@
     foliate
     corefonts
     onlyoffice-desktopeditors
-    mpv
-    prismlauncher
     zotero
     mailspring
     super-productivity
     kdePackages.filelight
     kdePackages.gwenview
+    kdePackages.kate
     easyeffects
     virt-manager
     virt-viewer
@@ -62,16 +60,9 @@
     "electron-39.8.10"
   ];
 
-  virtualisation.docker.enable = true;
-
   # programs
-  programs.niri.enable = true;
   programs.dconf.enable = true;
   programs.nix-ld.enable = true;
-  programs.firefox.enable = true;
-  programs.steam.enable = true;
-  programs.localsend.enable = true;
-  programs.waybar.enable = true;
   programs.nano.enable = true;
 
   # remove packages

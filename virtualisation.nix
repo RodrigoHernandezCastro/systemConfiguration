@@ -3,6 +3,8 @@
   ...
 }:
 {
+  virtualisation.docker.enable = true;
+
   # Enable libvirt with QEMU/KVM
   virtualisation.libvirtd = {
     enable = true;

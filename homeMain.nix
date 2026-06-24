@@ -1,22 +1,7 @@
 {
   inputs,
-  pkgs,
   ...
 }:
-let
-  inherit (inputs.nixpkgs.lib.fileset) toList fileFilter;
-  tree =
-    path:
-    toList (
-      fileFilter (
-        file:
-        if file.type == "directory" then
-          true
-        else
-          file.hasExt "nix" && !(inputs.nixpkgs.lib.hasPrefix "_" file.name)
-      ) path
-    );
-in
 {
   imports = [
     inputs.home-manager.nixosModules.home-manager
@@ -35,14 +20,13 @@ in
 
       gtk.enable = true;
 
-      imports =
-        tree ./homePkgs
-        ++ tree ./niri/utils
-        ++ [
-          inputs.willowispll.homeModules.spicetify
-          inputs.willowispll.homeModules.nixcord
-          inputs.willowispll.homeModules.mako
-        ];
+      imports = [
+        (inputs.import-tree ./homePkgs)
+        (inputs.import-tree ./niri/utils)
+        inputs.willowispll.homeModules.spicetify
+        inputs.willowispll.homeModules.nixcord
+        inputs.willowispll.homeModules.mako
+      ];
     };
   };
 }

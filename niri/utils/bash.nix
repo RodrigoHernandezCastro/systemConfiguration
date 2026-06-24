@@ -4,6 +4,6 @@
 {
   programs.bash = {
     enable = true;
-    initExtra = "fastfetch";
+    initExtra = "command -v fastfetch > /dev/null && fastfetch";
   };
 }
