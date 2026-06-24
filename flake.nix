@@ -41,22 +41,13 @@
 
   };
 
-  outputs =
-    { self, ... }@inputs:
-    {
-      nixosConfigurations.nixos = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./homeMain.nix
-          ./fonts.nix
-          ./niri/niri.nix
-          ./virtualisation.nix
-        ]
-        ++ inputs.nixpkgs.lib.filesystem.listFilesRecursive ./services
-        ++ inputs.nixpkgs.lib.filesystem.listFilesRecursive ./hosts/rune
-        ++ inputs.nixpkgs.lib.filesystem.listFilesRecursive ./packages
-        ++ inputs.nixpkgs.lib.filesystem.listFilesRecursive ./programs;
-      };
-      nixosModules = import ./customModules;
+  outputs = inputs: {
+    nixosConfigurations.rune = inputs.nixpkgs.lib.nixosSystem {
+      specialArgs = { inherit inputs; };
+      modules = [
+        ((inputs.import-tree.matchNot "/(homePkgs|niri/utils|customModules)/.*") ./modules)
+      ];
     };
+    nixosModules = import ./modules/customModules;
+  };
 }
