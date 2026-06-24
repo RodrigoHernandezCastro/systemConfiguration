@@ -53,8 +53,9 @@
           ./fonts.nix
           ./virtualisation.nix
         ]
-        ++ inputs.nixpkgs.lib.filesystem.listFilesRecursive ./services
-        ++ inputs.nixpkgs.lib.filesystem.listFilesRecursive ./hosts/rune;
+        ++ inputs.nixpkgs.lib.filesystem.listilesRecursive ./services
+        ++ inputs.nixpkgs.lib.filesystem.listFilesRecursive ./hosts/rune
+        ++ inputs.nixpkgs.lib.filesystem.listFilesRecursive ./packages;
       };
       nixosModules = import ./customModules;
     };

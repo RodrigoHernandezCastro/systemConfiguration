@@ -1,4 +1,5 @@
 {
+  lib,
   ...
 }:
 {
@@ -35,6 +36,17 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.nvidia.acceptLicense = true;
+
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "corefonts" ];
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-39.8.10"
+  ];
+
+  # remove packages
+  documentation = {
+    enable = false;
+    man.enable = false;
+  };
 
   system.stateVersion = "25.11";
 }
