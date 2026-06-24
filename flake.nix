@@ -47,15 +47,15 @@
       nixosConfigurations.nixos = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
         modules = [
-          ./applications.nix
-          ./niri/niri.nix
           ./homeMain.nix
           ./fonts.nix
+          ./niri/niri.nix
           ./virtualisation.nix
         ]
-        ++ inputs.nixpkgs.lib.filesystem.listilesRecursive ./services
+        ++ inputs.nixpkgs.lib.filesystem.listFilesRecursive ./services
         ++ inputs.nixpkgs.lib.filesystem.listFilesRecursive ./hosts/rune
-        ++ inputs.nixpkgs.lib.filesystem.listFilesRecursive ./packages;
+        ++ inputs.nixpkgs.lib.filesystem.listFilesRecursive ./packages
+        ++ inputs.nixpkgs.lib.filesystem.listFilesRecursive ./programs;
       };
       nixosModules = import ./customModules;
     };
