@@ -39,13 +39,25 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    spicetify-nix = {
+      url = "github:Gerg-L/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs = inputs: {
     nixosConfigurations.rune = inputs.nixpkgs.lib.nixosSystem {
       specialArgs = { inherit inputs; };
       modules = [
-        ((inputs.import-tree.matchNot "/(homePkgs|niri/utils|customModules)/.*") ./modules)
+        ((inputs.import-tree.matchNot "/(homePkgs|niri/utils|customModules|hosts/runeVariant)/.*") ./modules)
+      ];
+    };
+
+    nixosConfigurations.runeVariant = inputs.nixpkgs.lib.nixosSystem {
+      specialArgs = { inherit inputs; };
+      modules = [
+        ((inputs.import-tree.matchNot "/(homePkgs|niri/utils|customModules|hosts/rune)/.*") ./modules)
       ];
     };
     nixosModules = import ./modules/customModules;

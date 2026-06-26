@@ -23,7 +23,6 @@
       imports = [
         (inputs.import-tree ./homePkgs)
         (inputs.import-tree ./niri/utils)
-        inputs.willowispll.homeModules.spicetify
         inputs.willowispll.homeModules.nixcord
         inputs.willowispll.homeModules.mako
       ];

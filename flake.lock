@@ -430,11 +430,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1781810163,
-        "narHash": "sha256-dk8lIk0UnO8GD3e7e3HM1vSYXpbEDmhy67w7KztfdCg=",
+        "lastModified": 1782358560,
+        "narHash": "sha256-vCcLh9pw3XO/+Lxk8r6xv6QnoCrTfGqiACcI7O637Wg=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "c8f0b8ed441c95bfeaf33555e7631044bb09f384",
+        "rev": "3a70e333f2950c302e875c44cfcfaff3f80f36bc",
         "type": "github"
       },
       "original": {
@@ -526,11 +526,11 @@
         "nixpkgs-nixcord": "nixpkgs-nixcord"
       },
       "locked": {
-        "lastModified": 1781803019,
-        "narHash": "sha256-0SlSlmT8rbmvMSxgfx+KWv1C2y1Gu0UL2JD+a0YJkyk=",
+        "lastModified": 1782349937,
+        "narHash": "sha256-2haY6BBTL+yCblUup/P9t3D8sUTMSqIok68n+qGjjYI=",
         "owner": "FlameFlag",
         "repo": "nixcord",
-        "rev": "ee22d6c0794e97a7cb896a01b80d601d8fa52618",
+        "rev": "afdacaafb10aa459dfabbb8af99e4b0deb74f1d2",
         "type": "github"
       },
       "original": {
@@ -752,6 +752,7 @@
         "import-tree": "import-tree",
         "nixcord": "nixcord",
         "nixpkgs": "nixpkgs",
+        "spicetify-nix": "spicetify-nix",
         "stylix": "stylix",
         "vtubfetch": "vtubfetch",
         "wallpaper_rulette": "wallpaper_rulette",
@@ -761,10 +762,31 @@
     "spicetify-nix": {
       "inputs": {
         "nixpkgs": [
+          "nixpkgs"
+        ],
+        "systems": "systems"
+      },
+      "locked": {
+        "lastModified": 1782031037,
+        "narHash": "sha256-a7oWSyS7SN81UOqVt481yIEMDsMpaJ7GNdV6Eaz5Yqg=",
+        "owner": "Gerg-L",
+        "repo": "spicetify-nix",
+        "rev": "9cb27462cfd20edac174353f1e95bc03aa888863",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Gerg-L",
+        "repo": "spicetify-nix",
+        "type": "github"
+      }
+    },
+    "spicetify-nix_2": {
+      "inputs": {
+        "nixpkgs": [
           "willowispll",
           "nixpkgs"
         ],
-        "systems": "systems_2"
+        "systems": "systems_3"
       },
       "locked": {
         "lastModified": 1781425310,
@@ -793,18 +815,18 @@
           "nixpkgs"
         ],
         "nur": "nur",
-        "systems": "systems",
+        "systems": "systems_2",
         "tinted-kitty": "tinted-kitty",
         "tinted-schemes": "tinted-schemes",
         "tinted-tmux": "tinted-tmux",
         "tinted-zed": "tinted-zed"
       },
       "locked": {
-        "lastModified": 1781018772,
-        "narHash": "sha256-C+cGIUaC6dqfwTbI+BwCd572PbESGA3WYxR1sLTqxkY=",
+        "lastModified": 1782310521,
+        "narHash": "sha256-vsxcG0i8e4EPfdnhMTKMVzD1825H2vG1BBslzom9wxg=",
         "owner": "nix-community",
         "repo": "stylix",
-        "rev": "a378e4c09031fb15a4d65da88aa628f71fc52f6b",
+        "rev": "e084d011e7ee9302aceaaf6c1fc28a9ace09e16a",
         "type": "github"
       },
       "original": {
@@ -827,7 +849,7 @@
           "nixpkgs"
         ],
         "nur": "nur_2",
-        "systems": "systems_3",
+        "systems": "systems_4",
         "tinted-kitty": "tinted-kitty_2",
         "tinted-schemes": "tinted-schemes_2",
         "tinted-tmux": "tinted-tmux_2",
@@ -878,6 +900,21 @@
       }
     },
     "systems_3": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_4": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
@@ -1090,17 +1127,17 @@
           "nixpkgs"
         ],
         "oxwm": "oxwm",
-        "spicetify-nix": "spicetify-nix",
+        "spicetify-nix": "spicetify-nix_2",
         "stylix": "stylix_2",
         "vtubfetch": "vtubfetch_2",
         "zapret": "zapret"
       },
       "locked": {
-        "lastModified": 1781806494,
-        "narHash": "sha256-HBbgJOcsBEpNSKB9p8DUoCZ3JaepLiN2cxUg9pKLIOU=",
+        "lastModified": 1782101729,
+        "narHash": "sha256-z8KwIb12nSLg/nkFsHYx4RrDpaslxeWTmsHxynxsqO8=",
         "owner": "Willowispll",
         "repo": "dendriticWillowispll",
-        "rev": "c0564873a4769dc21831f226dc765901e0139366",
+        "rev": "93b93eb3dae7e85a4984125a3b7555cb76165281",
         "type": "github"
       },
       "original": {
