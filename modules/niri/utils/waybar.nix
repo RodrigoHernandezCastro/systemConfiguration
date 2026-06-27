@@ -3,6 +3,92 @@
   ...
 }:
 let
+  trayScript = ''
+        WATCHER_SERVICE="org.kde.StatusNotifierWatcher"
+        WATCHER_PATH="/StatusNotifierWatcher"
+        ITEM_INTERFACE="org.kde.StatusNotifierItem"
+
+        get_property() {
+    	busctl --user get-property "$1" "$2" "$ITEM_INTERFACE" "$3" 2>/dev/null \
+    		| sed -E 's/^[[:alpha:]]+ //; s/^"//; s/"$//' || true
+        }
+
+        list_items() {
+    	local raw
+    	raw=$(busctl --user get-property \
+    		"$WATCHER_SERVICE" "$WATCHER_PATH" "$WATCHER_SERVICE" \
+    		RegisteredStatusNotifierItems 2>/dev/null) || return 0
+
+    	local entries
+    	entries=$(sed -E 's/^as[[:space:]]+[0-9]+//; s/"//g' <<< "$raw" \
+    		| tr -s ' ' '\n' | sed '/^$/d')
+
+    	local entry service path title status
+    	while IFS= read -r entry; do
+    		[[ -z $entry ]] && continue
+
+    		if [[ $entry == */* ]]; then
+    			service=''${entry%%/*}
+    			path=/''${entry#*/}
+    		else
+    			service=$entry
+    			path=/StatusNotifierItem
+    		fi
+
+    		title=$(get_property "$service" "$path" Title)
+    		[[ -z $title ]] && title=$(get_property "$service" "$path" Id)
+    		[[ -z $title ]] && title=$service
+
+    		status=$(get_property "$service" "$path" Status)
+    		[[ -n $status ]] && title="$title ($status)"
+
+    		printf '%s %s\t%s\n' "$service" "$path" "$title"
+    	done <<< "$entries"
+        }
+
+        main() {
+    	local options=(
+    		"--border=sharp"
+    		"--border-label= System Tray "
+    		"--cycle"
+    		"--delimiter=\t"
+    		"--ghost=Search"
+    		"--height=~100%"
+    		"--highlight-line"
+    		"--info=inline-right"
+    		"--pointer="
+    		"--reverse"
+    		"--with-nth=2"
+    	)
+
+    	while true; do
+    		local items
+    		items=$(list_items)
+
+    		if [[ -z $items ]]; then
+    			printf 'No tray items currently registered.\n'
+    			read -rsn 1 -p "Press any key to exit..."
+    			break
+    		fi
+
+    		local selected
+    		selected=$(fzf "''${options[@]}" <<< "$items") || break
+    		[[ -z $selected ]] && break
+
+    		local key service path
+    		key=$(cut -f1 <<< "$selected")
+    		service=''${key%% *}
+    		path=''${key#* }
+
+    		busctl --user call "$service" "$path" \
+    			"$ITEM_INTERFACE" Activate ii 0 0 > /dev/null 2>&1 || true
+    	done
+        }
+
+        main "$@"
+
+  '';
+
   backlightScript = ''
     DEF_VALUE=1
 
@@ -597,6 +683,14 @@ let
     main "$@"
   '';
 
+  onTray = pkgs.writeShellApplication {
+    name = "tray";
+    runtimeInputs = with pkgs; [
+      systemd
+      fzf
+    ];
+    text = trayScript;
+  };
   onBacklight = pkgs.writeShellApplication {
     name = "backlight";
     runtimeInputs = with pkgs; [
@@ -662,7 +756,7 @@ in
         reload_style_on_change = true;
 
         modules-left = [
-          "custom/user"
+          "custom/tray"
           "custom/left_div#1"
           "niri/workspaces"
           "custom/right_div#1"
@@ -703,13 +797,20 @@ in
           "battery"
           "custom/left_inv#2"
           "custom/power"
+          "tray"
         ];
 
-        "custom/user" = {
+        tray = {
+          icon-size = 1;
+          spacing = 0;
+        };
+
+        "custom/tray" = {
           format = "󰍜";
+          on-click = "${pkgs.kitty}/bin/kitty -e ${onTray}/bin/tray";
+          tooltip = false;
           min-length = 4;
           max-length = 4;
-          tooltip-format = "No command set";
         };
 
         "custom/left_div#1" = {
@@ -1310,6 +1411,13 @@ in
       }
       #custom-power:hover {
           background-color: @hover-bg;
+      }
+
+      #tray {
+          opacity: 0;
+          min-width: 0;
+          padding: 0;
+          margin: 0;
       }
 
       #custom-user:hover,

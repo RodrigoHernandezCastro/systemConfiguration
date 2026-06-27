@@ -7,37 +7,42 @@
 }:
 let
   cfg = config.services.wallpaperRulette;
+  inherit (lib)
+    mkIf
+    types
+    mkOption
+    mkEnableOption
+    literalExpression
+    ;
 in
 {
-  # To be fixed
   options = {
     services.wallpaperRulette = {
-      enable = lib.mkEnableOption "Wallpaper Rulette, a way to roll around in your wallpapers";
-      package = lib.mkOption {
-        type = lib.types.package;
-        default = (
-          inputs.wallpaper_rulette.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (_: {
-            nativeBuildInputs = with pkgs; [
-              cmake
-              pkg-config
-              wrapGAppsHook3
-            ];
-          })
-        );
-        description = "The wallpaper_rulette package to use.";
+      enable = mkEnableOption "Wallpaper Rulette";
+      package = mkOption {
+        type = types.package;
+        default = inputs.wallpaper_rulette.packages.${pkgs.system}.default;
+        defaultText = literalExpression "inputs.wallpaper_rulette.packages.\${pkgs.system}.default";
+        description = ''
+          The wallpaper_rulette package to shoot (change)
+          randomly at any of your wallpapers.
+        '';
       };
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     systemd.user.services.wallpaperRulette = {
-      enable = true;
       description = "A wallpaper rulette";
       wantedBy = [ "graphical-session.target" ];
-      after = [ "graphical-session.target" ];
+
       serviceConfig = {
+        RemainAfterExit = false;
+        Restart = "on-failure";
+        RestartSec = "3";
         ExecStart = "${cfg.package}/bin/wallpaper_rulette";
       };
+
     };
   };
 }

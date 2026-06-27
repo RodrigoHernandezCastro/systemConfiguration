@@ -1103,11 +1103,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1781479102,
-        "narHash": "sha256-VSqNzVcp7BFQCX4aPslvDrW6nZxMUrqRELLhdOaIs7o=",
+        "lastModified": 1782443767,
+        "narHash": "sha256-Ph2zgczBLfISYRv3xZnxii7i536YJ3cdCUVaDWYzYas=",
         "owner": "RodrigoHernandezCastro",
         "repo": "wallpaper_rulette",
-        "rev": "d540b49cc2cac4f8ea9d4b27c60f0fa49327858d",
+        "rev": "9156cab4ea63a7ae4d8ab1104d6be292bb2c0995",
         "type": "github"
       },
       "original": {
