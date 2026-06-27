@@ -1,6 +1,9 @@
 {
-  ...
-}:
-{
-  services.blueman.enable = true;
+  flake.nixosModules.blueman =
+    {
+      ...
+    }:
+    {
+      services.blueman.enable = true;
+    };
 }

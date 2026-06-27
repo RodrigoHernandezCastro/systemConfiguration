@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     import-tree.url = "github:vic/import-tree";
+    flake-parts.url = "github:hercules-ci/flake-parts";
 
     wallpaper_rulette = {
       url = "github:RodrigoHernandezCastro/wallpaper_rulette";
@@ -34,32 +35,21 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    willowispll = {
-      url = "github:Willowispll/dendriticWillowispll";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-  };
-
-  outputs = inputs: {
-    nixosConfigurations.rune = inputs.nixpkgs.lib.nixosSystem {
-      specialArgs = { inherit inputs; };
-      modules = [
-        ((inputs.import-tree.matchNot "/(homePkgs|niri/utils|customModules|hosts/runeVariant)/.*") ./modules)
-      ];
+    willowispll = {
+      url = "github:Willowispll/dendriticWillowispll";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixosConfigurations.runeVariant = inputs.nixpkgs.lib.nixosSystem {
-      specialArgs = { inherit inputs; };
-      modules = [
-        ((inputs.import-tree.matchNot "/(homePkgs|niri/utils|customModules|hosts/rune)/.*") ./modules)
-      ];
+    translator = {
+      url = "path:/home/randy/Desktop/cppProyects/translator";
     };
-    nixosModules = import ./modules/customModules;
   };
+
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; }
+    (inputs.import-tree.matchNot ".*/(homePkgs|niri/utils|customModules)/.*" ./modules);
 }

@@ -1,6 +1,9 @@
 {
-  ...
-}:
-{
-  services.playerctld.enable = true;
+  flake.nixosModules.playerctld =
+    {
+      ...
+    }:
+    {
+      services.playerctld.enable = true;
+    };
 }
