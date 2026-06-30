@@ -1,8 +1,7 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }: {
   programs.kitty = {
     enable = true;
-    themeFile = "Catppuccin-Mocha";
-    font = {
+    font = lib.mkForce {
       package = pkgs.monaspace;
       name = "Monaspace Radon Var";
       size = 10;

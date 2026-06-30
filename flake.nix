@@ -50,6 +50,15 @@
     };
   };
 
-  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; }
-    (inputs.import-tree.matchNot ".*/(homePkgs|niri/utils|customModules)/.*" ./modules);
+  outputs =
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } (
+      (inputs.import-tree).filterNot (
+        x:
+        inputs.nixpkgs.lib.hasInfix "/homePkgs" x
+        || inputs.nixpkgs.lib.hasInfix "/utils" x
+        || inputs.nixpkgs.lib.hasInfix "/customModules" x
+
+      ) ./modules
+    );
 }

@@ -35,7 +35,6 @@ in
       tailscale
       wallpaperRulette
 
-      systemPackages-audio
       systemPackages-games
       systemPackages-kde
       systemPackages-productivity
@@ -44,10 +43,12 @@ in
       systemPackages-virt
       systemPackages-web
 
+      translator
       home-manager
     ];
 
     homeModules = with self.homeModules; [
+      easyeffects
     ];
   };
 }

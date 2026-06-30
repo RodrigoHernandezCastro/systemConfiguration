@@ -10,6 +10,11 @@
     default = { };
   };
 
+  options.flake.homeModules = lib.mkOption {
+    type = lib.types.attrsOf lib.types.unspecified;
+    default = { };
+  };
+
   options.flake.userrune = lib.mkOption {
     type = lib.types.attrsOf lib.types.unspecified;
     default = { };

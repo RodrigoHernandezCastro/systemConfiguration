@@ -17,8 +17,6 @@
           adblockify
           shuffle
         ];
-        theme = spicePkgs.themes.catppuccin;
-        colorScheme = "mocha";
       };
     };
 }
